@@ -1,0 +1,216 @@
+﻿<!DOCTYPE HTML>
+<html><head>
+<title>Wordclock</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tinyColorPicker/1.1.1/jqColorPicker.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+<script src='js/jquery.ui.touch-punch.js'></script>
+<script src='js/horloge.js'></script>
+<link type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' rel='stylesheet' />
+<link type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.min.css' rel='stylesheet' />
+<link type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.1/load1.css' rel='stylesheet' />
+<link type='text/css' href='css/horloge.css' rel='stylesheet' />
+<link rel='icon' href='favicon.ico' />
+
+</head>
+<body>
+<div class='loader'><div class='loading'></div></div>
+
+<form action='/config' id='horlogeform' method='post'>
+
+<div id='global'>
+	<div id='menu'>
+		<input type='hidden' id='dynamic' name='dynamic' value='0'/>
+
+
+		<h1 id="menu_general">Generell</h1>
+		<div>
+			<h3>Zeitzone: 
+				<select name='timezone' id='timezone'></select>
+			</h3>
+
+			<h3>
+				<fieldset><legend>Sommerzeit:</legend>
+					<label><input type='radio' name='dst' value='1'>Ja</label>
+					<label><input type='radio' name='dst' value='0'>Nein</label>
+				</fieldset>
+			</h3>
+			<input type='submit' value='Überprüfen'/><br/><br/>
+		</div>
+
+		<h1 id="menu_colors">Farben</h1>
+		<div>
+			<h3>
+				<fieldset><legend>Farbmodus für Stunden/Minuten:</legend>
+					<label><input type='radio' name='colors_hourmin_mode' value='0'>Fixe Farbe</label><br/><label><input type='radio' name='colors_hourmin_mode' value='1'>Farbverlauf</label>
+				</fieldset>
+			</h3>
+
+			<h3>
+				<fieldset><legend>Farbmodus für Sekunden:</legend>
+					<label><input type='radio' name='colors_seconds_mode' value='0'>Fixe Farben</label><br/>
+					<label><input type='radio' name='colors_seconds_mode' value='1'>Wechselnde Farbe, aber immer gleich für alle Sekunden</label><br/>
+					<label><input type='radio' name='colors_seconds_mode' value='2'>Jede Sekunde hat ihre eigene Farbe</label>
+				</fieldset>
+			</h3>
+
+			<h3>
+				<fieldset><legend>Anzeigemodus für Sekunden:</legend> 
+					<label><input type='radio' name='colors_seconds_display' value='past'>Zeige alle Sekunden die verflossen sind</label><br/>
+					<label><input type='radio' name='colors_seconds_display' value='one'>Zeige nur die aktuelle Sekunde</label><br/>
+					<label><input type='radio' name='colors_seconds_display' value='all'>Zeige alle Sekunden, ausser die aktuelle Sekunde</label>
+				</fieldset>
+			</h3>
+
+			<h2>Hintergrundfarbe</h2>
+			<h3>
+				<fieldset><legend>Hintergrundfarbe:</legend>
+					<input class='color' size='12' id='colors_back' name='colors_back' value=''/><br/>
+				</fieldset>
+			</h3>
+
+			<h2>Fixe Farben</h2>
+			<h3>
+				<fieldset><legend>Fixe Farbe für Stunden:</legend>
+					<input class='color' size='12' id='colors_hours_on' name='colors_hours_on' value=''/><br/>
+				</fieldset>
+			</h3>
+
+			<h3>
+				<fieldset><legend>Fixe Farbe für Minuten:</legend>
+					<input class='color' size='12' id='colors_minutes_on' name='colors_minutes_on' value=''/><br/>
+				</fieldset>
+			</h3>
+
+			<h3>
+				<fieldset><legend>Fixe Farbe für Sekunden:</legend>
+					<input class='color' size='12' id='colors_seconds_on' name='colors_seconds_on' value=''/><br/>
+				</fieldset>
+			</h3>
+
+			<h2>Sättigung</h2>
+			<h3>
+				<fieldset><legend>Sättigung:</legend>
+					<div class='divSlider_255'><input type='text' id='colors_saturation' name='colors_saturation' size='3' value=''/>
+						<div></div>
+					</div>
+				</fieldset>
+			</h3>
+
+			<h3>
+				<fieldset><legend>Farbverschiebung:</legend>
+					<div class='divSlider_360'><input type='text' id='colors_offset' name='colors_offset' size='3' value=''/>&deg;
+						<div></div>
+					</div>
+				</fieldset>
+			</h3>
+
+			<input type='submit' value='Überprüfen'/><br/><br/>
+		</div>
+
+		<h1 id="menu_luminosity">Lichtstärke</h1>
+		<div>
+			<h2>Werte für Lichtstärke</h2>
+			<h3>
+				<fieldset><legend>Am Tag:</legend>
+					<div class='divSlider_255'>Hintergund: <input type='text' id='brightness_day_back' name='brightness_day_back' size='3' value=''/>
+						<div></div>
+					</div>
+					<div class='divSlider_255'>Stunden: <input type='text' id='brightness_day_hours' name='brightness_day_hours' size='3' value=''/>
+						<div></div>
+					</div>
+					<div class='divSlider_255'>Sekunden: <input type='text' id='brightness_day_seconds' name='brightness_day_seconds' size='3' value=''/>
+						<div></div>
+					</div>
+				</fieldset>
+			</h3>
+
+
+			<h3>
+				<fieldset><legend>In der Nacht:</legend>
+					<div class='divSlider_255'>Hintergund: <input type='text' id='brightness_night_back' name='brightness_night_back' size='3' value=''/>
+						<div></div>
+					</div>
+					<div class='divSlider_255'>Stunden: <input type='text' id='brightness_night_hours' name='brightness_night_hours' size='3' value=''/>
+						<div></div>
+					</div>
+					<div class='divSlider_255'>Sekunden: <input type='text' id='brightness_night_seconds' name='brightness_night_seconds' size='3' value=''/>
+						<div></div>
+					</div>
+				</fieldset>
+			</h3>
+
+			<h2>Aktivierungsschwelle für den Nachtmodus</h2>
+			<h3>
+				<fieldset><legend>Lichtstärke für den Nachtmodus:</legend>
+					<div class='divSlider_255'><input type='text' id='brightness_threshold' name='brightness_threshold' size='3' value=''/>
+						<div></div>
+					</div>
+					<br/>
+					<div id='updateLightLevel'>
+						Momentane durchschnittliche Lichtstärke : <span id='averagelightlevel'></span><br/>
+						Letzter Messwert : <span id='lastlightlevel'></span>
+					</div>
+				</fieldset>
+			</h3>
+
+			<input type='submit' value='Überprüfen'/><br/><br/>
+		</div>
+
+		<h1 id="menu_advanced">Erweitert</h1>
+		<div>
+			<h3>
+				Hostname: <input type='text' id='hostname' name='hostname' value='' class='textbox'/>
+			</h3>
+			<h3>
+				Serveur NTP: <input type='text' id='ntp_server' name='ntp_server' value='' class='textbox'/>
+			</h3>
+
+
+			<h2>Neustart</h2>
+			<h3>
+				<fieldset><legend>Automatischer Neustart:</legend> 
+					<select name='restart_day' id='restart_day'>
+						<option value='never' >Nie</option>
+						<option value='all' >Täglich</option>
+						<option value='1' >Montags</option>
+						<option value='2' >Dienstags</option>
+						<option value='3' >Mittwochs</option>
+						<option value='4' >Donnerstags</option>
+						<option value='5' >Freitags</option>
+						<option value='6' >Samstags</option>
+						<option value='0' >Sonntags</option>
+					</select><br/>
+
+					Um 
+					<select name='restart_hour' id='restart_hour'></select>
+				</fieldset>
+			</h3>
+
+			<input type='hidden' name='restart' id='restart' value='0'/>
+			<input type='button' value='Jetzt neu starten' id='restartbtn'/><br/><br/>
+			
+			<h3>
+				<fieldset><legend>Config:</legend>
+					<input type='hidden' name='restoreconfig' id='restoreconfig' value='0'/>
+					<input type='button' value='Standardeinstellungen wiederherstellen' id='restoreconfigbtn'/>
+				</fieldset>
+			</h3>
+			
+			<h3>
+				<fieldset><legend>Letzter Neustart:</legend>
+					<div>Vor : <span id="lastrebootime"></span></div>
+					<div>Aufgrund : <span id="lastrebootreason"></span></div>
+				</fieldset>
+			</h3>
+
+			<input type='submit' value='Überprüfen'/><br/><br/>
+		</div>
+
+	</div>
+</div>
+</form>
+</body>
+</html>

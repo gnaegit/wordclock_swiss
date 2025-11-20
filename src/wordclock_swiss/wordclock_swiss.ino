@@ -14,6 +14,9 @@
 #include <ArduinoJson.h>        //To manage json config file
 #include <StringSplitter.h>     //To manage strings splits
 #include <Ewma.h>               //To smooth luminosity readings
+#include "ledarrays.h"
+#include "functions.h"
+#include "webserver.h"
 
 #define PIN_LUM     A0              //Pin where luminosity sensor is plugged (A0)
 #define PIN_LEDS    2               //Pin where led matrix is plugged (D4) - (add a 400-470ohms resistors on data wire, and optionaly a 1000uf capacitor between power wires)
@@ -38,12 +41,17 @@ Ewma adcFilter(0.05);                                                //Filter fo
 int time_hours   =   NULL;
 int time_minutes =   NULL;
 int time_seconds =   NULL;
+int time_day = NULL;
+int time_month = NULL;
+int time_year = NULL;
+time_t time_epoch = NULL;
 
 //Dictionaries to store the leds ids for each word to be displayed (details in ledarrays.ino)
 std::map<String, std::vector<int>> ledsarray_start;
 std::map<String, std::vector<int>> ledsarray_hours;
 std::map<String, std::vector<int>> ledsarray_minutes;
 std::map<String, std::vector<int>> ledsarray_seconds;
+std::map<String, std::vector<int>> ledsarray_dates;
 
 //Light values
 int last_light_val=0;
@@ -176,13 +184,19 @@ void loop() {
   updateLightLevel();
 
   //If hour/min/sec has changed, we update it on display
-  if(time_hours != timeClient.getHours() || time_minutes != timeClient.getMinutes() || time_seconds != timeClient.getSeconds()){
-    time_hours   = timeClient.getHours();
-    time_minutes = timeClient.getMinutes();
-    time_seconds = timeClient.getSeconds();
+  if(time_epoch != timeClient.getEpochTime())
+  {
+    time_epoch = timeClient.getEpochTime();
+    struct tm *ptm = gmtime(&time_epoch);
+    time_seconds = ptm->tm_sec;
+    time_minutes = ptm->tm_min;
+    time_hours   = ptm->tm_hour;
+    time_day = ptm->tm_mday;
+    time_month = ptm->tm_mon + 1; // 0+1 = Januar, 1+1 = Februar,...
+    time_year = ptm->tm_year + 1900;
 
     //Display updated time on led matrix
-    showTime();
+    showTime(time_seconds, time_minutes, time_hours, time_day, time_month, time_year);
 
     //Showing free heap memory (debugging purposes, to monitor if there's any memory leak)
     Serial.print("Free heap = ");
@@ -191,8 +205,8 @@ void loop() {
   }
 
   //Check if restart is required
-  if(timeClient.getHours() == docConfig["restart"]["hour"].as<int>() && timeClient.getMinutes() == 0 && timeClient.getSeconds() == 0
-    && (String(timeClient.getDay()) == docConfig["restart"]["day"].as<String>() || docConfig["restart"]["day"].as<String>() == "all")){
+  if(time_hours == docConfig["restart"]["hour"].as<int>() && time_minutes == 0 && timeClient.getSeconds() == 0
+    && (String(time_day) == docConfig["restart"]["day"].as<String>() || docConfig["restart"]["day"].as<String>() == "all")){
     Serial.println("Auto restart initiated");
     ESP.restart();
   }
