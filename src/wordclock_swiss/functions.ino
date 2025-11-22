@@ -55,8 +55,13 @@ void showTime(int time_s, int time_m, int time_h, int time_d, int time_mo, int t
   );
   uint32_t color_s = pixels.gamma32(
                    ((int)(docConfig["colors"]["seconds_on"]["r"].as<int>()*per_lum_seconds) << 16) 
-                   + ((int)(docConfig["colors"]["seconds_ons_on"]["g"].as<int>()*per_lum_seconds) << 8) 
+                   + ((int)(docConfig["colors"]["seconds_on"]["g"].as<int>()*per_lum_seconds) << 8) 
                    + (int)(docConfig["colors"]["seconds_on"]["b"].as<int>()*per_lum_seconds)
+  );
+  uint32_t color_hol = pixels.gamma32(
+                   ((int)(docConfig["colors"]["holidays_on"]["r"].as<int>()*per_lum_hours) << 16) 
+                   + ((int)(docConfig["colors"]["holidays_on"]["g"].as<int>()*per_lum_hours) << 8) 
+                   + (int)(docConfig["colors"]["holidays_on"]["b"].as<int>()*per_lum_hours)
   );
 
   //If dynamic hour/min colors, we calculate them
@@ -205,26 +210,26 @@ void showTime(int time_s, int time_m, int time_h, int time_d, int time_mo, int t
     addWord(ledsarray_minutes["gsi"], color_m);
   }
 
-  /// Dates ///
+  /// Holidays ///
   if(time_mo == 1 && time_d == 1)
   {
-    addWord(ledsarray_dates["es guets nöis"], color_m);
+    addWord(ledsarray_holidays["es guets nöis"], color_hol);
   }
   if(time_mo == 8 && time_d == 1)
   {
-    addWord(ledsarray_dates["d schwiiz het geburi"], color_m);
+    addWord(ledsarray_holidays["d schwiiz het geburi"], color_hol);
   }
   if(time_mo == 12 && (time_d == 24 || time_d == 25 || time_d == 26))
   {
-    addWord(ledsarray_dates["frohi festtäg"], color_m);
+    addWord(ledsarray_holidays["frohi festtäg"], color_hol);
   }
   if(time_mo == 12 && time_d == 31)
   {
-    addWord(ledsarray_dates["guete rutsch"], color_m);
+    addWord(ledsarray_holidays["guete rutsch"], color_hol);
   }
   if(isEaster(time_d, time_mo, time_y))
   {
-    addWord(ledsarray_dates["e a s t e r e g g"], color_m);
+    addWord(ledsarray_holidays["e a s t e r e g g"], color_hol);
   }
   
   //We display the hour

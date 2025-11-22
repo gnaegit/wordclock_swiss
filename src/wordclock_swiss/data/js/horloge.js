@@ -31,6 +31,7 @@ function fetchConfig(data){
 	$("#colors_hours_on").val("rgb(" + data["colors"]["hours_on"]["r"] + "," + data["colors"]["hours_on"]["g"] + "," + data["colors"]["hours_on"]["b"] + ")");
 	$("#colors_minutes_on").val("rgb(" + data["colors"]["minutes_on"]["r"] + "," + data["colors"]["minutes_on"]["g"] + "," + data["colors"]["minutes_on"]["b"] + ")");
 	$("#colors_seconds_on").val("rgb(" + data["colors"]["seconds_on"]["r"] + "," + data["colors"]["seconds_on"]["g"] + "," + data["colors"]["seconds_on"]["b"] + ")");
+	$("#colors_holidays_on").val("rgb(" + data["colors"]["holidays_on"]["r"] + "," + data["colors"]["holidays_on"]["g"] + "," + data["colors"]["holidays_on"]["b"] + ")");
 	$("#colors_saturation").val(data["colors"]["saturation"]);
 	$("#colors_offset").val(data["colors"]["offset"]);
 	

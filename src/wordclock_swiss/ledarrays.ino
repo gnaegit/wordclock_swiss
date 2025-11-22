@@ -96,9 +96,9 @@ void initLedsArrays(){
   ledsarray_seconds["58"]  =      {10};
   ledsarray_seconds["59"]  =      {9};
 
-  ledsarray_dates["es guets nöis"] = {174,173,205,204,203,202,201,238,237,236,235};
-  ledsarray_dates["e a s t e r e g g"] = {19,56,84,120,154,171,196,234,226};
-  ledsarray_dates["d schwiiz het geburi"] = {170,168,167,166,165,164,163,162,200,199,198,232,231,230,229,228,227};
-  ledsarray_dates["frohi festtäg"] = {179,180,181,182,183,209,210,211,212,213,214,215};
-  ledsarray_dates["guete rutsch"] = {185,186,187,188,189,216,217,218,219,220,221};
+  ledsarray_holidays["es guets nöis"] = {174,173,205,204,203,202,201,238,237,236,235};
+  ledsarray_holidays["e a s t e r e g g"] = {19,56,84,120,154,171,196,234,226};
+  ledsarray_holidays["d schwiiz het geburi"] = {170,168,167,166,165,164,163,162,200,199,198,232,231,230,229,228,227};
+  ledsarray_holidays["frohi festtäg"] = {179,180,181,182,183,209,210,211,212,213,214,215};
+  ledsarray_holidays["guete rutsch"] = {185,186,187,188,189,216,217,218,219,220,221};
 }

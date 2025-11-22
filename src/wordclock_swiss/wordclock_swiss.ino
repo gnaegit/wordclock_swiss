@@ -17,6 +17,7 @@
 #include "ledarrays.h"
 #include "functions.h"
 #include "webserver.h"
+#include <ESP8266mDNS.h>
 
 #define PIN_LUM     A0              //Pin where luminosity sensor is plugged (A0)
 #define PIN_LEDS    2               //Pin where led matrix is plugged (D4) - (add a 400-470ohms resistors on data wire, and optionaly a 1000uf capacitor between power wires)
@@ -51,7 +52,7 @@ std::map<String, std::vector<int>> ledsarray_start;
 std::map<String, std::vector<int>> ledsarray_hours;
 std::map<String, std::vector<int>> ledsarray_minutes;
 std::map<String, std::vector<int>> ledsarray_seconds;
-std::map<String, std::vector<int>> ledsarray_dates;
+std::map<String, std::vector<int>> ledsarray_holidays;
 
 //Light values
 int last_light_val=0;
@@ -119,6 +120,14 @@ void setup() {
     //Connection established
     Serial.println("Wifi connection established");
 
+    if (MDNS.begin(docConfig["hostname"].as<const char*>())) {
+      Serial.println("mDNS responder started");
+    } else {
+      Serial.println("Error setting up mDNS responder!");
+    }
+
+    MDNS.addService("http", "tcp", 80);
+
     //Wifi connected, green ring while to load data
     Serial.println("Display green ring");
     if(wasResetExpected()){
@@ -176,6 +185,9 @@ void loop() {
   
   //Manages request sent to webserver
   server->handleClient();
+
+  // Update mdns
+  MDNS.update();
 
   //Manages ntp time sync
   timeClient.update();

@@ -95,6 +95,15 @@ void handleConfig(){
     delete splitter;
   }
 
+  //colors_holidays_on
+  if(server->hasArg("colors_holidays_on") && server->arg("colors_holidays_on") != NULL){
+    StringSplitter *splitter = new StringSplitter(substring(server->arg("colors_holidays_on"),4,-1), ',', 3);
+    docConfig["colors"]["holidays_on"]["r"] = byteLimit(splitter->getItemAtIndex(0));
+    docConfig["colors"]["holidays_on"]["g"] = byteLimit(splitter->getItemAtIndex(1));
+    docConfig["colors"]["holidays_on"]["b"] = byteLimit(splitter->getItemAtIndex(2));
+    delete splitter;
+  }
+
   //colors_saturation
   if(server->hasArg("colors_saturation") && server->arg("colors_saturation") != NULL){
     docConfig["colors"]["saturation"] = byteLimit(server->arg("colors_saturation"),255);
